@@ -1,50 +1,37 @@
-# Welcome to your Expo app 👋
+# 📱 CapacityX
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+**CapacityX** é um aplicativo mobile desenvolvido com **React Native** e **Expo** com o objetivo de auxiliar **empresas prestadoras de serviços terceiros** a gerenciar seus apontamentos de serviços. Com ele, é possível registrar atividades realizadas, controlar a execução de tarefas e acompanhar a capacidade operacional da equipe.
 
-## Get started
+---
 
-1. Install dependencies
+## 🚀 Tecnologias utilizadas
 
-   ```bash
-   npm install
-   ```
+- [Expo](https://expo.dev/)
+- [React Native](https://reactnative.dev/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Expo Router](https://expo.github.io/router/)
 
-2. Start the app
+---
 
-   ```bash
-   npx expo start
-   ```
+## 📦 Como executar o projeto
 
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+### 1. Clone o repositório
 
 ```bash
-npm run reset-project
+git clone https://github.com/seu-usuario/capacityx.git
+cd capacityx
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+### 2. Instale as dependências
 
-## Learn more
+```bash
+npm install
+# ou
+yarn install
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+### 3. Execute o projeto com expo
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+```bash
+npx expo start
+```

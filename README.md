@@ -18,7 +18,7 @@
 ### 1. Clone o repositório
 
 ```bash
-git clone https://github.com/seu-usuario/capacityx.git
+git clone https://github.com/nogueira-exe/projeto-capacityx
 cd capacityx
 ```
 

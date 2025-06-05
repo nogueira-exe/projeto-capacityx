@@ -14,7 +14,7 @@ export default function EditarApontamentoScreen() {
   const [showDatePicker, setShowDatePicker] = useState(false);
 
   useEffect(() => {
-    axios.get(`http://192.168.3.112:3000/apontamento/${id}`)
+    axios.get(`http://172.16.0.64:3000/apontamento/${id}`)
       .then(res => setForm(res.data))
       .catch(err => Alert.alert('Erro ao carregar apontamento', err.message))
       .finally(() => setLoading(false));
@@ -33,12 +33,13 @@ export default function EditarApontamentoScreen() {
 
   async function handleSubmit() {
     try {
-      await axios.put(`http://192.168.3.112:3000/apontamento/${id}`, form);
+      await axios.patch(`http://172.16.0.64:3000/apontamento/${id}`, form);
       Alert.alert('Sucesso', 'Apontamento atualizado com sucesso');
       router.back();
     } catch (error: any) {
       Alert.alert('Erro ao atualizar', error.message);
     }
+    router.push('/home')
   }
 
   if (loading || !form) return <Text style={{ padding: 20 }}>Carregando...</Text>;

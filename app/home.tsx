@@ -1,6 +1,3 @@
-// Tela de listagem atualizada com botões de edição e exclusão
-// Criaremos também a navegação para as telas de criação e edição
-
 import axios from "axios";
 import { useEffect, useState, useCallback } from "react";
 import {
@@ -11,6 +8,7 @@ import {
   TextInput,
   View,
   TouchableOpacity,
+  Modal,
 } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { useRouter } from "expo-router";
@@ -41,10 +39,12 @@ export default function HomeScreen() {
   const [refreshing, setRefreshing] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [search, setSearch] = useState("");
+  const [modalVisible, setModalVisible] = useState(false);
+  const [apontamentoToDelete, setApontamentoToDelete] = useState<number | null>(null);
 
   const fetchApontamentos = async () => {
     try {
-      const response = await axios.get("http://192.168.3.112:3000/apontamento");
+      const response = await axios.get("http://172.16.0.64:3000/apontamento");
       setApontamentos(response.data);
       setErrorMsg("");
     } catch (error) {
@@ -72,11 +72,23 @@ export default function HomeScreen() {
 
   const handleDelete = async (id: number) => {
     try {
-      await axios.delete(`http://192.168.3.112:3000/apontamento/${id}`);
+      await axios.delete(`http://172.16.0.64:3000/apontamento/${id}`);
       fetchApontamentos();
+      setModalVisible(false);
+      setApontamentoToDelete(null);
     } catch (error) {
       alert("Erro ao excluir apontamento.");
     }
+  };
+
+  const confirmDelete = (id: number) => {
+    setApontamentoToDelete(id);
+    setModalVisible(true);
+  };
+
+  const cancelDelete = () => {
+    setModalVisible(false);
+    setApontamentoToDelete(null);
   };
 
   return (
@@ -123,7 +135,7 @@ export default function HomeScreen() {
                   style={styles.containerBtnEdit}
                   onPress={() => {
                     router.push({
-                      pathname: `/editar-apontamento/${item.id}`,
+                      pathname: `../editar-apontamento/${item.id}`,
                       params: { id: item.id.toString() },
                     });
                   }}
@@ -137,7 +149,7 @@ export default function HomeScreen() {
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.containerBtnDelete}
-                  onPress={() => handleDelete(item.id)}
+                  onPress={() => confirmDelete(item.id)}
                 >
                   <Icon
                     name="delete"
@@ -151,6 +163,40 @@ export default function HomeScreen() {
           )}
         />
       )}
+
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={cancelDelete}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContainer}>
+            <Text style={styles.modalTitle}>Confirmar Exclusão</Text>
+            <Text style={styles.modalMessage}>
+              Tem certeza que deseja excluir este apontamento?
+            </Text>
+            <View style={styles.modalActions}>
+              <TouchableOpacity
+                style={[styles.modalButton, styles.modalButtonCancel]}
+                onPress={cancelDelete}
+              >
+                <Text style={styles.modalButtonText}>Não</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.modalButton, styles.modalButtonConfirm]}
+                onPress={() => {
+                  if (apontamentoToDelete !== null) {
+                    handleDelete(apontamentoToDelete);
+                  }
+                }}
+              >
+                <Text style={styles.modalButtonText}>Sim</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
 
       <TouchableOpacity
         style={styles.fab}
@@ -261,5 +307,52 @@ const styles = StyleSheet.create({
   containerBtnEdit: {
     backgroundColor: "#2563eb",
     borderRadius: 6,
+  },
+  // Estilos para o modal
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalContainer: {
+    backgroundColor: "#fff",
+    borderRadius: 12,
+    padding: 20,
+    width: "80%",
+    alignItems: "center",
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#1f2937",
+    marginBottom: 12,
+  },
+  modalMessage: {
+    fontSize: 16,
+    color: "#4b5563",
+    marginBottom: 20,
+    textAlign: "center",
+  },
+  modalActions: {
+    flexDirection: "row",
+    gap: 16,
+  },
+  modalButton: {
+    flex: 1,
+    padding: 12,
+    borderRadius: 8,
+    alignItems: "center",
+  },
+  modalButtonCancel: {
+    backgroundColor: "#9ca3af",
+  },
+  modalButtonConfirm: {
+    backgroundColor: "#dc2626",
+  },
+  modalButtonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
   },
 });

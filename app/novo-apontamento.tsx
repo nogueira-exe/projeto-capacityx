@@ -12,6 +12,7 @@ import {
 import DateTimePicker from "@react-native-community/datetimepicker";
 import axios from "axios";
 import { format } from "date-fns";
+import { router } from "expo-router";
 
 type ApontamentoForm = {
   id_usuario: string;
@@ -61,11 +62,12 @@ export default function NovoApontamentoScreen() {
 
   async function handleSubmit() {
     try {
-      await axios.post("http://192.168.3.112:3000/apontamento", form);
+      await axios.post("http://172.16.0.64:3000/apontamento", form);
       Alert.alert("Sucesso", "Apontamento criado com sucesso");
     } catch (error: any) {
       Alert.alert("Erro", error.message);
     }
+    router.push('/home')
   }
 
   return (
